@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="main.css">
+    <title>To do list</title>
+</head>
+
+<body>
+
+    <form action="/" method="GET">
+        <input class="refresh" type="image" src="https://tse1.mm.bing.net/th?id=OIP.0bUNFDmV7f5jNb57ZzqxlgHaHa&pid=Api&rs=1&c=1&qlt=95&w=123&h=123"  alt="refresh">
+
+        <header class="header">
+            <div class="weather">
+                <% if (locals.data){%>
+                    <p> Temp: <%=((data.main.temp-273).toFixed(2)) %>degree celcius</p>
+                    <p>Wind: <%=data.wind.speed   %></p>
+                    <p>Place Name:<%=data.name  %></p>
+                  <% } else{ %>
+                  <p>Nothing to show</p>
+                   <%} %>
+            </div>
+        <div class="date">
+            <% var currentDate=new Date() ; %>
+            <% const days=["Sunday","Monnday","Tuesday","Wednesday","Thursday","Friday","Saturday"] %>
+          
+            <p><%=  new Date().toLocaleDateString()  %> <span> <%= (days[currentDate.getDay()]) %></span> <span> <%= new Date().toLocaleTimeString() %></span></p>
+            <% if(currentDate.getHours>=12 && currentDate.getHours()<17){ %>
+            
+              <h1>Good AfterNoon Taseer</h1>
+          <%  }else if(currentDate.getHours()>=17 && currentDate.getHours ()<20){%>
+             <h1>Good Evening Taseer</h1>
+         
+         <%  }else if(currentDate.getHours()>=20 && currentDate.getHours ()<24){%>
+             <h1>Good Night Taseer</h1>
+        
+          <%}else{%>
+             <h1>Good Morning Taseer</h1>
+         
+         <% }%>
+        
+        </div>
+          
+        </header>
+       
+    </form>
+
+   
+    <div class="heading">
+        <h1 class="h1"> My To Do List</h1>
+    </div>
+
+    <% if (locals.items) {%>
+        <div class="order-div">
+            <ol class="list">
+                <% items.forEach(function(result){ %>
+                    <form action="/delete" method="POST">
+                        <div class="item">
+                            <li>
+                                <input type="checkbox" name="checkbox1"  value="<%=result._id  %>"
+                                   class="cb" onChange="this.form.submit()">
+                               
+                                <%= result.name %>
+                            </li>
+
+                        </div>
+                    </form>
+                    <% })%>
+            </ol>
+        </div>
+            <%}else{%>s
+                <p>Please add an item</p>
+                <%}%>
+
+
+
+
+    <div class="form">
+        <form action="/" method="POST">
+
+            <input class="input" type="text" name="job" placeholder="Enter the list">
+            <button class="button" name="button">+</button>
+        </form>
+    </div>
+
+   
+</body>
+
+</html>
